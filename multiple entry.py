@@ -19,28 +19,26 @@ def main():
     amount_num = 0 # 주차중인 자동차 수 확인을 위한 변수
     car_info = car_information() #자료 타입선언 
     task_queue = Queue() #Led, Motor를 제어할 큐 생성(task_queue_process_func()와 공유) task의 순서를 넣은거임 
+    led_manip_queue = Queue() # LED를 프로세스를 종료시켜주기 위한 큐
     task_queue_process = Process(target=task_queue_process_func, args=(task_queue)) #프로세스 큐 독립생성
+    led_queue_erase_process = Process(target=Led_erase, args=(led_manip_queue)) #프로세스 큐 독립생성
     while(1):
         car_info.reset(car_info) #초기화 
-        when_car_entered(car_info, task_queue, amount_num)
+        when_car_entered(car_info, task_queue, led_manip_queue, amount_num)
 
 if __name__ == '__main__':
   main()
 
 # 1 <<
 
-def when_car_entered(car_info, task_queue, amount_num):
+def when_car_entered(car_info, task_queue, led_manip_queue, amount_num):
     if (UI_for_enterd_car != 0):
         if (amount_num < 36):
             amount_num = amount_num + 1
             car_info = allocate_car(car_info)
             task_queue.put(car_info.arr)
-            manipulating_Led(car_info.arr)
-            """
-            1. 캠에서 주차 끝났다는 리턴 파이프로 받음
-            2. 캠에는 새로운 get을 받음
-            3. LED 제어 프로세스를 종료시킴 
-            """
+            Led_manip_process = Process(target=manipulating_Led, args=(car_info.arr))
+            led_manip_queue.put(Led_manip_process)
         else: print("parking lot full")
     else: print("ready for car entered")
 
@@ -64,6 +62,16 @@ def task_queue_process_func(car_info, task_queue):
                         fp_fifo.write(from_queue)
                         break
 
+def Led_erase(led_manip_queue):
+    fname = './signal'
+    while (1):
+        if os.path.exists(fname): fp_fifo = open(fname, "r")
+        with open(FIFO_FILENAME, 'r') as fifo:
+            data = fifo.read()
+            if (data != 0): 
+                task_overed_processs_pid = led_manip_queue.get()
+                os.kill(task_overed_processs_pid,)
+            else: pass
 # 2 <<
 
 def UI_for_enterd_car(car_info): 
@@ -105,4 +113,7 @@ pipe없이 큐만 쓰면 되는거였다..
 파이썬에는 goto문이 없다고 함 funcmap을 쓰거나 while -break로 구현해야할듯
 LED에 통신을 어떻게 할까 고민임. 독립프로세스를 따로 만들어 계속 통신을 할까 아니면 끝났다는 신호를 따로 보내줄까
 후자가 쉽지만 연습을 위해 전자를 해본다.... 안되면 후자로 감 
+ㅇ ㅏ pipe 인자로넘기는거랑 파일만들어서 넘기는거 공부 다했는데 화나네...보드를 나눠서 하면 어짜피 다른 프로세스잖아. ㅠㅠ.....
+근데 생각해보니까 아두이노는 통신들어올때마다 저장해놓는게 힘드니까 그냥 통신 내가 뿌리는게 아두이노 입장에선 편할지도? 
+나중에 힘들다고하면 시작이랑 종료신호 그냥 두번주는걸로 짜줘야겠따
 """
