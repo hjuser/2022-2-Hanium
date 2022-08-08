@@ -31,7 +31,8 @@ if __name__ == '__main__':
 
 def when_car_entered(car_info, task_queue, amount_num):
     if (UI_for_enterd_car != 0):
-        if (amount_num++ < 36):
+        if (amount_num < 36):
+            amount_num = amount_num + 1
             car_info = allocate_car(car_info)
             task_queue.put(car_info.arr)
             Led_manip_process = Process(target=manipulating_Led, args=(car_info.arr))
