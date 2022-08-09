@@ -23,7 +23,7 @@ def main():
     task_queue_process = Process(target=task_queue_process_func, args=(task_queue)) #프로세스 큐 독립생성 (모터, 카메라)
     led_queue_erase_process = Process(target=Led_erase, args=(led_manip_queue)) #프로세스 큐 독립생성 (Led)
     task_queue_process.start()
-    led_queue_erase_process.stat()
+    led_queue_erase_process.start()
     while(1):
         car_info.reset(car_info) #초기화 
         when_car_entered(car_info, task_queue, led_manip_queue, amount_num) #입차 메소드 실행 
