@@ -22,6 +22,8 @@ def main():
     led_manip_queue = Queue() # Led를 프로세스를 종료시켜주기 위한 큐
     task_queue_process = Process(target=task_queue_process_func, args=(task_queue)) #프로세스 큐 독립생성 (모터, 카메라)
     led_queue_erase_process = Process(target=Led_erase, args=(led_manip_queue)) #프로세스 큐 독립생성 (Led)
+    task_queue_process.start()
+    led_queue_erase_process.stat()
     while(1):
         car_info.reset(car_info) #초기화 
         when_car_entered(car_info, task_queue, led_manip_queue, amount_num) #입차 메소드 실행 
@@ -37,7 +39,8 @@ def when_car_entered(car_info, task_queue, led_manip_queue, amount_num): #입차 �
             amount_num = amount_num + 1 #입차 카운트
             car_info = allocate_car(car_info) #주차지 할당 
             task_queue.put(car_info.arr) #배차지 큐에 넣음 
-            Led_manip_process = Process(target=manipulating_Led, args=(car_info.arr)) #LED프로세스 실행
+            Led_manip_process = Process(target=manipulating_Led, args=(car_info.car_arr)) #LED프로세스 실행
+            Led_manip_process.start()
             led_manip_queue.put(Led_manip_process) #프로세스 ID큐에 넣음 
         else: print("parking lot full")
     else: print("ready for car entered")
@@ -81,7 +84,7 @@ def allocate_car(car_info):
     ## 주차지 할당하는 코드
     return car_info
 
-def manipulating_Led(car_info.arr):
+def manipulating_Led(car_arr):
     ## LED제어 아두이노와 하는 통신 코드
     pass
 
