@@ -26,6 +26,11 @@ while(프로그램 작동):
 """
 
 
+""" 요구할것.
+    하드웨어로 주차지를 구획할때 3배수로 n~ n+2로 주차지를 나눠야 탐색할 때 편할 것 같음
+
+"""
+
 import pymysql #따로 설치해주어야하는 라이브러리임
 
 def init() :
@@ -48,28 +53,38 @@ def init() :
     cursor.execute(sql) 
     #3. 커서를 이용해 서버에 쿼리를 간접적으로 보냄 
 
-def save_data() :
+def save_data(key_carin) :
     sql =   '''
             ''' 
-            #
+            # 입차 이벤트 발생시 정보를 저장할 쿼리
+            # 입력을 받아서 해당 키의 정보를 삭제한다
 
     cursor.execute(sql) 
     #3. 커서를 이용해 서버에 쿼리를 간접적으로 보냄 
 
-def delete_data() :
+def delete_data(key_carout) :
     sql =   '''
             ''' 
-            #
+            # 출차 이벤트 발생시 정보를 제거할 쿼리
+            # 입력을 받아서 해당 키의 정보를 삭제한다
 
     cursor.execute(sql) 
     #3. 커서를 이용해 서버에 쿼리를 간접적으로 보냄
 
-def get_data() :
+def get_data() : #리턴할값이 중간 자리차량의 여부검사를 하고 그 차량의 출차시간이 필요할듯 (가능하면 평균도?) 해서 리턴은 다음검사를 시킬지 주차시킬지 <<<
     sql =   '''
             ''' 
-             #
+             # allocate()함수 발생시 정보탐색을 쓸 쿼리
 
     cursor.execute(sql) 
+    if (carexist): 
+        if (already_parked < time_out): #입력과 중간차량과의 시간비교 오래 있는다면 
+            return 0 #다음 배열을 검사하라는 의미
+        else: #
+            return 1 #바깥 자리라는 의미의1
+    else:
+        return 2 #중간 자리에 세우라는 의미의2
+        
     #3. 커서를 이용해 서버에 쿼리를 간접적으로 보냄
 
 
