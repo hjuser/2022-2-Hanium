@@ -1,14 +1,30 @@
+"""
 # mysql사용, localhost로 접속, 비밀번호는 0000으로 세팅할 것
 # DB는 설정해두고 테이블은 필요한 4개의 컬럼을 포함해 세팅되어있다는 가정하에
 # 커서명은 pytosql로 씀.
 
-"""
 데이터베이스   :
 스키마         :
 테이블         :
 연결자         :
 커서           :
 """
+
+
+""" 사용예시
+while(프로그램 작동):
+    init()
+    if(입차 이벤트 발생):
+        save_data()
+        quit()
+    if(출차 이벤트 발생):
+        delete_data()
+        quit()
+    if(allocate()함수 작동):
+        get_data()
+        quit()
+"""
+
 
 import pymysql #따로 설치해주어야하는 라이브러리임
 
@@ -20,8 +36,14 @@ def init() :
     #2. 커서생성, cur이라는 커서를 생성해 대신 쿼리작성해줌
 
     sql =   '''
+             CREATE TABLE userTable (
+             id INT(4) NOT NULL, 
+             car_num INT(4) NOT NULL, 
+             time_in INT(10) NOT NULL, 
+             time_out INT(10) NOT NULL
+             
             ''' 
-            #
+            #클래스 내 4개 파람+키를 포함한 내용물을 포함한 테이블을 만드는 쿼리
 
     cursor.execute(sql) 
     #3. 커서를 이용해 서버에 쿼리를 간접적으로 보냄 
@@ -44,13 +66,8 @@ def delete_data() :
 
 def get_data() :
     sql =   '''
-             CREATE TABLE userTable (
-             id INT(4) NOT NULL, 
-             car_num INT(4) NOT NULL, 
-             time_in INT(10) NOT NULL, 
-             time_out INT(10) NOT NULL
-             ''' 
-             #클래스 내 4개 파람+키를 포함한 내용물을 포함한 테이블을 만드는 쿼리
+            ''' 
+             #
 
     cursor.execute(sql) 
     #3. 커서를 이용해 서버에 쿼리를 간접적으로 보냄
@@ -62,5 +79,8 @@ def quit() :
 
     pytosql.close()
     #DB 연결 닫기
+
+
+
 
 
