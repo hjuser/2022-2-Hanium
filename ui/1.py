@@ -63,3 +63,4 @@ class Ui_MainWindow(object):
         self.checkBox.setText(QCoreApplication.translate("MainWindow", u"\uc815\ud655\ud558\uc9c0 \uc54a\uc74c", None))
     # retranslateUi
 
+   
