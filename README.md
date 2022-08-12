@@ -31,6 +31,6 @@
 .   
 .   
 ### 2022-08-12 이미지처리->불량주차판별
-![image](https://user-images.githubusercontent.com/78671444/184401319-3e3f2533-2dc8-4fbf-99cf-c9d00db9ae02.png)
+![image](https://user-images.githubusercontent.com/78671444/184403346-b059c6e9-8761-49c6-b6d2-7a9b29ec806a.png)
 
    
