@@ -21,3 +21,9 @@
 ### 2022-08-08   
 ![1](https://user-images.githubusercontent.com/78671444/184053103-f6d6338d-66c0-481f-a0fd-b0db78ce3fc0.jpg)
 
+.   
+.   
+.   
+### 2022-08-12
+![image](https://user-images.githubusercontent.com/78671444/184367947-8f57c586-a087-4e73-8ecd-e0937f7dc9f4.png)
+   
