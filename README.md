@@ -27,4 +27,3 @@
 ### 2022-08-12
 ![image](https://user-images.githubusercontent.com/78671444/184367947-8f57c586-a087-4e73-8ecd-e0937f7dc9f4.png)
    
-ui for entered car
