@@ -68,7 +68,7 @@
      <rect>
       <x>250</x>
       <y>40</y>
-      <width>371</width>
+      <width>381</width>
       <height>141</height>
      </rect>
     </property>
@@ -78,7 +78,7 @@
  출차차량을 위한 화면입니다. 
 
  1. 차량번호를 입력해주세요. 
- 2. 차량에 문제가 생겼다면 관리자에게 문의하세요</string>
+ 2. 모두 입력하셨다면 입력버튼을 눌러 마무리 해주세요.</string>
     </property>
    </widget>
   </widget>
