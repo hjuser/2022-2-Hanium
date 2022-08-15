@@ -62,3 +62,11 @@ class Ui_MainWindow(object):
 " 2. \ucc28\ub7c9\uc5d0 \ubb38\uc81c\uac00 \uc0dd\uacbc\ub2e4\uba74 \uad00\ub9ac\uc790\uc5d0\uac8c \ubb38\uc758\ud558\uc138\uc694", None))
     # retranslateUi
 
+if __name__ == "__main__":
+    import sys
+    app = QApplication(sys.argv)
+    MainWindow = QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
@@ -63,4 +65,13 @@ class Ui_MainWindow(object):
         self.checkBox.setText(QCoreApplication.translate("MainWindow", u"\uc815\ud655\ud558\uc9c0 \uc54a\uc74c", None))
     # retranslateUi
 
-   
+if __name__ == "__main__":
+    import sys
+    app = QApplication(sys.argv)
+    MainWindow = QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
+
+    ###선언잘못했었음...

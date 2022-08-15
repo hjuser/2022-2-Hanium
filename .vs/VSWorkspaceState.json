@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\ui"
   ],
-  "SelectedNode": "\\db.py",
+  "SelectedNode": "\\ui\\out.py",
   "PreviewInSolutionExplorer": false
 }
