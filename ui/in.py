@@ -69,9 +69,16 @@ if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
     MainWindow = QMainWindow()
+    
+    def car_num_Input(self):
+        self.car_num=self.textEdit.toPlainText()  #textEdit값 가져와서 변수 car_num에 저장
+        
+    def time_out_Input(self):
+        self.time_out=self.dateTimeEdit.toPlainText()
+        
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
 
-    ###�����߸��߾���...
+    ###źąžđŔß¸řÇßžúŔ˝...
