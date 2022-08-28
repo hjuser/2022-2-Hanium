@@ -2,59 +2,61 @@ from multiprocessing import Process, Queue, Pipe
 import os, os.path
 
 class car_information: 
-  def __init(self): #¼±¾ğ 
+  def __init(self): #ì„ ì–¸ 
     self.car_num = 0
-    self.time_in = 0
+    #self.time_in = 0 #í˜„ì¬ì‹œê°ìœ¼ë¡œ ì„¤ì •í•˜ê¸°ë¡œ ê²°ì •
     self.time_out = 0
     self.car_arr = 0
-  def reset(self): #ÃÊ±âÈ­
+  def reset(self): #ì´ˆê¸°í™”
     self.car_num = 0
-    self.time_in = 0
+    #self.time_in = 0
     self.time_out = 0
     self.car_arr = 0
 
 # 0 <<
 
 def main():
-    amount_num = 0 # ÁÖÂ÷ÁßÀÎ ÀÚµ¿Â÷ ¼ö È®ÀÎÀ» À§ÇÑ º¯¼ö
-    car_info = car_information() #ÀÚ·á Å¸ÀÔ¼±¾ğ 
-    task_queue = Queue() #Led, Motor¸¦ Á¦¾îÇÒ Å¥ »ı¼º(task_queue_process_func()¿Í °øÀ¯) taskÀÇ ¼ø¼­¸¦ ³ÖÀº°ÅÀÓ 
-    led_manip_queue = Queue() # Led¸¦ ÇÁ·Î¼¼½º¸¦ Á¾·á½ÃÄÑÁÖ±â À§ÇÑ Å¥
-    task_queue_process = Process(target=task_queue_process_func, args=(task_queue)) #ÇÁ·Î¼¼½º Å¥ µ¶¸³»ı¼º (¸ğÅÍ, Ä«¸Ş¶ó)
-    led_queue_erase_process = Process(target=Led_erase, args=(led_manip_queue)) #ÇÁ·Î¼¼½º Å¥ µ¶¸³»ı¼º (Led)
+    amount_num = 0 # ì£¼ì°¨ì¤‘ì¸ ìë™ì°¨ ìˆ˜ í™•ì¸ì„ ìœ„í•œ ë³€ìˆ˜
+    car_info = car_information() #ìë£Œ íƒ€ì…ì„ ì–¸ 
+    #car_info.car_num = car_num
+    #car_info.time_out = time_out
+    task_queue = Queue() #Led, Motorë¥¼ ì œì–´í•  í ìƒì„±(task_queue_process_func()ì™€ ê³µìœ ) taskì˜ ìˆœì„œë¥¼ ë„£ì€ê±°ì„ 
+    led_manip_queue = Queue() # Ledë¥¼ í”„ë¡œì„¸ìŠ¤ë¥¼ ì¢…ë£Œì‹œì¼œì£¼ê¸° ìœ„í•œ í
+    task_queue_process = Process(target=task_queue_process_func, args=(task_queue)) #í”„ë¡œì„¸ìŠ¤ í ë…ë¦½ìƒì„± (ëª¨í„°, ì¹´ë©”ë¼)
+    led_queue_erase_process = Process(target=Led_erase, args=(led_manip_queue)) #í”„ë¡œì„¸ìŠ¤ í ë…ë¦½ìƒì„± (Led)
     task_queue_process.start()
     led_queue_erase_process.start()
     while(1):
-        car_info.reset(car_info) #ÃÊ±âÈ­ 
-        when_car_entered(car_info, task_queue, led_manip_queue, amount_num) #ÀÔÂ÷ ¸Ş¼Òµå ½ÇÇà 
+        car_info.reset(car_info) #ì´ˆê¸°í™” 
+        when_car_entered(car_info, task_queue, led_manip_queue, amount_num) #ì…ì°¨ ë©”ì†Œë“œ ì‹¤í–‰ 
 
 if __name__ == '__main__':
   main()
 
 # 1 <<
 
-def when_car_entered(car_info, task_queue, led_manip_queue, amount_num): #ÀÔÂ÷ ¸Ş¼Òµå
-    if (UI_for_enterd_car != 0): #UIÀÔ·Â ±â´Ù¸²
-        if (amount_num < 36): #¸¸Â÷ È®ÀÎ
-            amount_num = amount_num + 1 #ÀÔÂ÷ Ä«¿îÆ®
-            car_info = allocate_car(car_info) #ÁÖÂ÷Áö ÇÒ´ç 
-            task_queue.put(car_info.arr) #¹èÂ÷Áö Å¥¿¡ ³ÖÀ½ 
-            Led_manip_process = Process(target=manipulating_Led, args=(car_info.car_arr)) #LEDÇÁ·Î¼¼½º ½ÇÇà
+def when_car_entered(car_info, task_queue, led_manip_queue, amount_num): #ì…ì°¨ ë©”ì†Œë“œ
+    if (UI_for_enterd_car != 0): #UIì…ë ¥ ê¸°ë‹¤ë¦¼
+        if (amount_num < 36): #ë§Œì°¨ í™•ì¸
+            amount_num = amount_num + 1 #ì…ì°¨ ì¹´ìš´íŠ¸
+            car_info = allocate_car(car_info) #ì£¼ì°¨ì§€ í• ë‹¹ 
+            task_queue.put(car_info.arr) #ë°°ì°¨ì§€ íì— ë„£ìŒ 
+            Led_manip_process = Process(target=manipulating_Led, args=(car_info.car_arr)) #LEDí”„ë¡œì„¸ìŠ¤ ì‹¤í–‰
             Led_manip_process.start()
-            led_manip_queue.put(Led_manip_process) #ÇÁ·Î¼¼½º IDÅ¥¿¡ ³ÖÀ½ 
+            led_manip_queue.put(Led_manip_process) #í”„ë¡œì„¸ìŠ¤ IDíì— ë„£ìŒ 
         else: print("parking lot full")
     else: print("ready for car entered")
 
 def task_queue_process_func(car_info, task_queue):
     while(1):
-        #Å¥¿¡ ¾Æ¹«°Íµµ ¾øÀ» °æ¿ì¸¦ À§ÇÑ ¿¹¿ÜÃ³¸® 
-        from_queue = task_queue.get() #from_queueµ¹°í ÀÖ´Â ÅÂ½ºÅ© (.arr)
-        if (from_queue != 0): pass # Å¥¿¡ ¾øÀ¸¸é ´Ù½Ã ¹ŞÀ¸·¯ °¡~
-        else: #ÀÖÀ¸¸é Åë½ÅÄ¡°í ³¡³¯¶§±îÁö ±â´Ù¸®´Ù°¡ ³¡³ª¸é Á¾·á½ÅÈ£ singalÆÄÀÏ¿¡ ÀÛ¼ºÇØ
+        #íì— ì•„ë¬´ê²ƒë„ ì—†ì„ ê²½ìš°ë¥¼ ìœ„í•œ ì˜ˆì™¸ì²˜ë¦¬ 
+        from_queue = task_queue.get() #from_queueëŒê³  ìˆëŠ” íƒœìŠ¤í¬ (.arr)
+        if (from_queue != 0): pass # íì— ì—†ìœ¼ë©´ ë‹¤ì‹œ ë°›ìœ¼ëŸ¬ ê°€~
+        else: #ìˆìœ¼ë©´ í†µì‹ ì¹˜ê³  ëë‚ ë•Œê¹Œì§€ ê¸°ë‹¤ë¦¬ë‹¤ê°€ ëë‚˜ë©´ ì¢…ë£Œì‹ í˜¸ singalíŒŒì¼ì— ì‘ì„±í•´
             manipulating_Motor(from_queue)
-            signal = manipulating_Camera(from_queue) #signal Á¾·á½Ã±×³Î
+            signal = manipulating_Camera(from_queue) #signal ì¢…ë£Œì‹œê·¸ë„
             while (1):
-                if (signal == 1): #È®ÀÎÇØ¼­ Á¾·á½ÅÈ£ µé¾î¿À¸é ³¡³­ ÅÂ½ºÆ® .arr ÆÄÀÌÇÁÃâ·Â
+                if (signal == 1): #í™•ì¸í•´ì„œ ì¢…ë£Œì‹ í˜¸ ë“¤ì–´ì˜¤ë©´ ëë‚œ íƒœìŠ¤íŠ¸ .arr íŒŒì´í”„ì¶œë ¥
                     fname = './signal'
                     if not os.path.exists(fname): 
                         os.mkfifo(fname)
@@ -63,7 +65,7 @@ def task_queue_process_func(car_info, task_queue):
                         fp_fifo.write(from_queue)
                         break
 
-def Led_erase(led_manip_queue): #Á¾·á½ÅÈ£(.arrÆÄÀÌÇÁ½ÅÈ£) È®ÀÎÇØ¼­
+def Led_erase(led_manip_queue): #ì¢…ë£Œì‹ í˜¸(.arríŒŒì´í”„ì‹ í˜¸) í™•ì¸í•´ì„œ
     fname = './signal'
     while (1):
         if os.path.exists(fname): fp_fifo = open(fname, "r")
@@ -71,28 +73,28 @@ def Led_erase(led_manip_queue): #Á¾·á½ÅÈ£(.arrÆÄÀÌÇÁ½ÅÈ£) È®ÀÎÇØ¼­
             data = fifo.read()
             if (data != 0): 
                 task_overed_processs_pid = led_manip_queue.get()
-                os.kill(task_overed_processs_pid,)  #led½ÅÈ£ ±×¸¸º¸³»°Ô ÇÁ·Î¼¼½º Á¾·á
+                os.kill(task_overed_processs_pid,)  #ledì‹ í˜¸ ê·¸ë§Œë³´ë‚´ê²Œ í”„ë¡œì„¸ìŠ¤ ì¢…ë£Œ
             else: pass
 
 # 2 <<
 
 def UI_for_enterd_car(car_info): 
-    ## UI¿¡¼­ °ªµé ¹Ş¾Æ¿À´Â°Å (ÀÎÅÍ·´Æ®¾Æ´Ô)
+    ## UIì—ì„œ ê°’ë“¤ ë°›ì•„ì˜¤ëŠ”ê±° (ì¸í„°ëŸ½íŠ¸ì•„ë‹˜)
     return car_info
 
 def allocate_car(car_info):
-    ## ÁÖÂ÷Áö ÇÒ´çÇÏ´Â ÄÚµå
+    ## ì£¼ì°¨ì§€ í• ë‹¹í•˜ëŠ” ì½”ë“œ
     return car_info
 
 def manipulating_Led(car_arr):
-    ## LEDÁ¦¾î ¾ÆµÎÀÌ³ë¿Í ÇÏ´Â Åë½Å ÄÚµå
+    ## LEDì œì–´ ì•„ë‘ì´ë…¸ì™€ í•˜ëŠ” í†µì‹  ì½”ë“œ
     pass
 
-def manipulating_Motor(next_task): #Å¥¿¡ ÀÖ´ø ´ÙÀ½ task
-    ## ¸ğÅÍÁ¦¾î ¾ÆµÎÀÌ³ë¿Í ÇÏ´Â Åë½Å ÄÚµå
+def manipulating_Motor(next_task): #íì— ìˆë˜ ë‹¤ìŒ task
+    ## ëª¨í„°ì œì–´ ì•„ë‘ì´ë…¸ì™€ í•˜ëŠ” í†µì‹  ì½”ë“œ
     pass
 
-def manipulating_Camera(next_task): #Å¥¿¡ ÀÖ´ø ´ÙÀ½ task
-    ## Â÷¼±ÀÎ½Ä Ä· Á¦¾î ÄÚµå
-    ## ³¡³ª¸é Á¶°ÇÀ» °ÅÃÄ return 1 ÇØ¾ßÇÔ 
+def manipulating_Camera(next_task): #íì— ìˆë˜ ë‹¤ìŒ task
+    ## ì°¨ì„ ì¸ì‹ ìº  ì œì–´ ì½”ë“œ
+    ## ëë‚˜ë©´ ì¡°ê±´ì„ ê±°ì³ return 1 í•´ì•¼í•¨ 
     return 1
